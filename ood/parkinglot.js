@@ -32,89 +32,115 @@ A car has an `id` (string) and a `plate` (string).
 
 ---
 
-**Your turn.** Start with clarifying questions. Take 3 to 5 min on questions, then sketch the class model on paper, then code. Post questions first.
- 
-MY Questions -
-1. I assume there will be capacity for the parking lot?
-2. I am assuming 1 parking lot for this exercise
-
-MY OOD consists of 2 entities -
-ParkingLot : will have all the methods described above to implemnet
-------------
-Car: I will keep it simple - id, plate
+Questions : 
+1. Can the cars be parked in any order ? Should it be lowest integer
+2. Do we need to consder the - if a same car can be parked twice within a day?
+3. I am assumining 1 parking lot, fixed number of spots
 
 
-Please let me know my asumtipns are correct / or in the right directions
+Here is my HL Class models
 
-My Class model:
------------------
 ParkingLot
-----------
-attributes
- + capacity : integer
- + arr : Car[]
+------------
+constructor(capacity): ParkingLot
+spots: Integer
 
-methods
- + park(car)
- + leave(spotNumber)
- + isFull()
- + availableSpots()
+park(car) : Integer
+leave(spotNumber) : Boolean
+isFull(): Boolean
+availableSpots() : Integer
+
 
 Car
--------
-attributes
-id: number
-plate: string
+-----------
+constructor(id, plate): Car
+
+id: String
+plate: String
+
+
 */
+
+
+// class ParkingLot {
+//     constructor(capacity) {
+//         this.spots = Array(capacity).fill(null);
+//     }
+    
+//     // park(car) : Integer
+//     park(car) {
+//         for(let i=0; i<this.spots.length; i++) {
+//             if(this.spots[i] === null) { // try finding the first empty spot
+//                 this.spots[i] = car;
+//                 return i;
+//             }
+//         }
+        
+//         return -1; // if spots no found
+//     }
+    
+//     // leave(spotNumber) : Boolean
+//     leave(spotNumber) {
+//         if(spotNumber <0 || spotNumber >=this.spots.length || this.spots[spotNumber] === null) return false;
+//         this.spots[spotNumber] = null;
+//         return true;
+//     }
+
+//     // isFull(): Boolean
+//     isFull() {
+//         return this.availableSpots() === 0;
+//     }
+
+//     // availableSpots() : Integer
+//     availableSpots() {
+//         let count = 0;
+//         for(let i=0; i<this.spots.length; i++) {
+//             if(this.spots[i] === null) { // try finding the first empty spot
+//                 count++;
+//             }
+//         }
+//         return count;
+//     }
+
+// }
+
 
 class ParkingLot {
     constructor(capacity) {
-        this.capacity = capacity;
-        this.spots = new Array(capacity).fill(null);
+        this.spots = Array(capacity).fill(null);
     }
 
     park(car) {
-        // find the lowest index and add to the spot
-        for (let i = 0; i < this.spots.length; i++) {
+        for(let i=0; i< this.spots.length; i++) {
             if(this.spots[i] === null) {
                 this.spots[i] = car;
-                return i+1;
+                return i;
             }
         }
         return -1;
-        
     }
 
     leave(spotNum) {
-        //const op = this.spots.splice(spotNum, 1)
-        // return op.length === 1;
-        // for (let i = 0; i < this.spots.length; i++) {
-        //     if(i === spotNum) {
-        //         this.spots[i] = null;
-        //         return true;
-        //     }
-        // }
-        spotNum -= 1;
-        if(spotNum < this.capacity && spotNum >=0){
-            this.spots[spotNum] = null;
-            return true;
-        }
-        return false;
+        if(spotNum<0 ||  spotNum>=this.spots.length || this.spots[spotNum] === null) return false;
+        this.spots[spotNum] = null;
+        return true;
     }
 
-    isFull() {
+    isFull(){
         return this.availableSpots() === 0;
     }
 
     availableSpots() {
-        let availableSpots = 0;
-        for (let i = 0; i < this.spots.length; i++) {
-            if(this.spots[i] === null)
-                availableSpots++;
+        let cnt = 0;
+        for(let i=0; i< this.spots.length; i++) {
+            if(this.spots[i] === null) {
+                cnt++;
+            }
         }
-        return availableSpots;
+        return cnt;
     }
 }
+
 
 class Car {
     constructor(id, plate) {
@@ -123,7 +149,6 @@ class Car {
     }
 }
 
-
 //// Test
 const c1 = new Car("1", "MH05");
 const c2 = new Car("2", "MH04");
@@ -131,27 +156,22 @@ const c3 = new Car("3", "MH04");
 const c4 = new Car("4", "MH04");
 
 const p = new ParkingLot(10);
-console.log(p.park(c1));
-console.log(p.park(c2));
-console.log(p.park(c3));
-console.log(p.leave(1));
-console.log(p.park(c4));
-console.log(p.availableSpots());
 
+// Assertions
+console.assert(p.park(c1) === 0, "Error: Car 1 should be parked at slot 0");
+console.assert(p.park(c2) === 1, "Error: Car 2 should be parked at slot 1");
+console.assert(p.park(c3) === 2, "Error: Car 3 should be parked at slot 2");
 
-// for(let i=0; i<10; i++) {
-//     const c3 = new Car(`${i}`, `MH${i}`);
-//     console.log("----------------");
-//     console.log(`Car ${i} parked at :: ${p.park(c3)}`);
-//     console.log("Is Parking lot Full ::",p.isFull());
-//     //console.log("Leave  ::",p.leave());
+console.assert(p.leave(1) === true, "Error: Leaving slot 1 should return true");
 
-//     console.log("availableSpots ::",p.availableSpots());
-// }
+// Car 4 should take the lowest available slot (slot 1)
+console.assert(p.park(c4) === 1, "Error: Car 4 should reuse slot 1");
 
+// 4 cars parked total, 1 left, 1 arrived -> 3 slots filled out of 10
+console.assert(p.availableSpots() === 7, `Error: Available spots should be 7, got ${p.availableSpots()}`);
 
-// const c3 = new Car("C3", `MHC3`);
-//     console.log("----------------");
-//     console.log(`Car ${i} parked at :: ${p.park(c3)}`);
-//     console.log("Is Parking lot Full ::",p.isFull());
+// Assuming slots 9 and 10 are currently empty
+console.assert(p.leave(9) === false, "Error: Leaving an empty slot (9) should return false");
+console.assert(p.leave(10) === false, "Error: Leaving an empty slot (10) should return false");
+
 

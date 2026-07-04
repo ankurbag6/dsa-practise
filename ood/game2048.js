@@ -1,3 +1,108 @@
+/**
+ 
+2  4  2  0
+4  0  4  2
+2  4  0  2
+0  2  4  0
+
+Slide left result:
+- Drop zeros
+2 4 2
+4 4 2
+2 4 2
+2 4 
+
+- Merge adjacent equal pairs
+2 4 2
+8 0 2
+2 4 2
+2 4 0
+
+- Drop zeros and pad
+2 4 2
+8 2
+2 4 2
+2 4 
+
+2 4 2 0
+8 2 0 0
+2 4 2 0
+2 4 0 0
+
+Slide up result:
+- Transpose
+2 4 2 0
+4 0 4 2
+2 4 0 4
+0 2 2 0 
+- Slide Left(Follow all the steps above)
+2 4 2 0
+8 2 0 0
+2 8 0 0
+4 0 0 0
+
+- Transpose
+2 8 2 4
+4 2 8 0
+2 0 0 0
+0 0 0 0
+
+Slide right result:
+reverse each row
+0 2 4 2
+2 4 0 4
+2 0 4 2
+0 4 2 0
+
+slide left
+2 4 2 0
+2 8 0 0
+2 4 2 0
+4 2 0 0
+
+reverse each row back.
+0 2 4 2
+0 0 8 2
+0 2 4 2
+0 0 2 4
+
+Slide down result:
+
+Original
+- Transpose
+2 4 2 0
+4 0 4 2
+2 4 0 4
+0 2 2 0 
+- reverse each row
+0 2 4 2
+2 4 0 4
+4 0 4 2
+0 2 2 0
+- slide left
+2 4 2 0
+2 8 0 0
+8 2 0 0
+4 0 0 0
+
+- reverse each row (again)
+0 2 4 2
+0 0 8 2
+0 0 2 8
+0 0 0 4
+
+Transposed back (final)
+0 0 0 0
+2 0 0 0
+4 8 2 0
+2 2 8 4
+* 
+ * 
+ * 
+ */
+
+
+
 class Game2048 {
   constructor(size = 4) {
     this.size = size;

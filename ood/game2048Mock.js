@@ -55,32 +55,46 @@ class Game{
     constructor(m, n, rng = Math.random) {
         this.grid = Array.from({ length: m }, () => Array(n).fill(0));
         
-        this._spawn(rng);
+        this._spawn(rng, m, n);
+        this._spawn(rng, m, n);
         this.score = 0;
     }
 
     move(dir) {
-        let isGridChanged = false;
+        const before = this._clone();
         switch(dir) {
-            case 'left': // slideLeft();
+            case 'left':  this.slideLeft();
             break;
             case 'up': 
             // transpose
+            this._transposeMatrix();
             // slideLeft
+            this.slideLeft();
             // transpose back
+            this._transposeMatrix();
             break; 
             case 'down': 
             // transpose
+            this._transposeMatrix();
+            // reverse
+            this._reverseMatrix();
             // slideLeft
+            this.slideLeft();
+            // reverse back
+            this._reverseMatrix();
             // transpose back
+            this._transposeMatrix();
             break;
             case 'right': 
-            // transpose
+            // reverse
+            this._reverseMatrix();
             // slideLeft
-            // transpose back
+            this.slideLeft();
+            // reverse back
+            this._reverseMatrix();
             break; 
         }
-        return isGridChanged;
+        return this._compare2DArrays(before, this.grid);
     }
 
     getGrid() {
@@ -105,13 +119,83 @@ class Game{
     }
     
     // Private methods
-    _spawn(rng) {
+    slideLeft() {
+        // dropZeroes
+        const tempArr = [];
+        for(let r=0; r<this.grid.length; r++) {
+            tempArr.push(this._dropZeroes(this.grid[r]));
+        }
+        //console.log("dropZeroes---");
+        //console.log(tempArr);
+        // mergeAdjacent if legal
+        for(let r=0; r<tempArr.length; r++) {
+            tempArr[r] = this._mergeAdjacent(tempArr[r]);
+        }
+
+        // dropZeroes
+        for(let r=0; r<tempArr.length; r++) {
+            tempArr[r] = this._dropZeroes(tempArr[r]);
+        }
+        //console.log("mergeAdjacent---");
+        //console.log(tempArr);
+        // pad with zeroes
+        for(let r=0; r<tempArr.length; r++) {
+            tempArr[r] = this._padZeroes(tempArr[r]);
+        }
+        console.log("After Slide Left---");
+        console.log(tempArr);
+        this.grid = tempArr;
+    }
+
+    _clone() {
+        return this.grid.map(row => row.slice());
+    }
+
+    _compare2DArrays(arr1, arr2){
+        // Check outer array lengths first
+        if (arr1.length !== arr2.length) return false;
+
+        return arr1.every((row, i) => {
+            // Check inner array lengths
+            if (row.length !== arr2[i].length) return false;
+            
+            // Check each element in the row
+            return row.every((val, j) => val === arr2[i][j]);
+        });
+    };
+
+    _dropZeroes(row) {
+        //console.log("row--",row)
+        return row.filter( r => r!== 0 );
+    }
+
+    _mergeAdjacent(row) {
+        let i =0;
+        const result = Array(row.length).fill(0);
+        for(let r=1; r<row.length; r++) {
+            if(row[i] === row[r] || row[i] === 0 || row[r] === 0) {
+                result[i] = row[i] + row[r];
+                result[r] = 0;
+                this.score += result[i];
+            }
+            i++;
+        }
+        return result;
+    }
+
+    _padZeroes(row) {
+
+        // Place the zero array first, then spread the original array
+        return [...row, ...Array(this.grid.length - row.length).fill(0)];
+    }
+
+    _spawn(rng, m, n) {
         // Generate random coordinates
         let randomRow = Math.floor(rng() * m);
         let randomCol = Math.floor(rng() * n);
         
         // Populate that single random index with either 2 or 4
-        this.grid[randomRow][randomCol] = rng() < 0.5 ? 2 : 4;
+        this.grid[randomRow][randomCol] = rng() < 0.9 ? 2 : 4;
     }
 
     _hasLegalMove(grid, r, c) {
@@ -129,5 +213,77 @@ class Game{
         });
     }
 
+    _transposeMatrix() {
+        const rows = this.grid.length;
+        const cols = this.grid[0].length;
+        const result = Array(cols).fill(0).map(() => Array(rows));
+
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+            result[c][r] = this.grid[r][c];
+            }
+        }
+        console.log("After Transpose---");
+        console.log(result);
+        this.grid = result;
+    }
+
+    _reverseMatrix() {
+        const rows = this.grid.length;
+        const cols = this.grid[0].length;
+        const result = Array(cols).fill(0).map(() => Array(rows));
+
+        for (let r = 0; r < this.grid.length; r++) {
+            this._reverse(this.grid[r])
+        }
+        console.log("After Reverse---");
+        console.log(this.grid);
+    }
+
+    _reverse(row) {
+        const temp = row.reverse();
+        //console.log("After Reverse---");
+        //console.log(temp);
+        return temp;
+    }
+
 }
 
+const g = new Game(4, 4);
+
+//g.grid = [ [ 0, 2, 0, 2 ], [ 0, 2, 2, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ];
+g.grid = [ [2, 2, 4, 4], [ 0, 2, 2, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ];
+
+//console.log(g._mergeAdjacent([2, 2, 4, 4]));
+// console.log(g.grid);
+let isGridSame = g.move('left');
+console.log("isGridSame::", isGridSame);
+
+
+// 1. Assert the boolean return flag
+console.assert(isGridSame === false, "Expected isGridSame to be false");
+
+// 2. Assert the deep grid state
+let expectedGridString = JSON.stringify([ [ 4, 8, 0, 0 ], [ 4, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ]);
+
+console.assert(
+  JSON.stringify(g.grid) === expectedGridString, 
+  "Grid state mismatch!", 
+  g.grid
+);
+
+isGridSame = g.move('up');
+console.log("isGridSame::", isGridSame);
+
+
+// 1. Assert the boolean return flag
+console.assert(isGridSame === false, "Expected isGridSame to be false");
+
+// 2. Assert the deep grid state
+expectedGridString = JSON.stringify([ [ 8, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ]);
+
+console.assert(
+  JSON.stringify(g.grid) === expectedGridString, 
+  "Grid state mismatch!", 
+  g.grid
+);

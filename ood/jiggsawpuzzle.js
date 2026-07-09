@@ -117,3 +117,89 @@ Say this word aloud in the interview: **"This is backtracking."** Interviewer im
 - **"Extension: rotation. Add piece.rotate() and try all 4 orientations at each placement. Multiplies search but same algorithm."**
 
 */
+
+class Side {
+    constructor(type, shape = null) {
+        this.type = type;      // 'tab' | 'blank' | 'flat'
+        this.shape = shape;    // number, null when flat
+    }
+
+    static matches(a, b) {
+        if (a.type === 'flat' || b.type === 'flat') return false;
+        if (a.type === b.type) return false;      // tab-tab, blank-blank
+        return a.shape === b.shape;
+    }
+}
+
+class Piece {
+    constructor(id, top, right, bottom, left) {
+        this.id = id;
+        this.sides = [top, right, bottom, left];
+    }
+    get top()    { return this.sides[0]; }
+    get right()  { return this.sides[1]; }
+    get bottom() { return this.sides[2]; }
+    get left()   { return this.sides[3]; }
+    flatCount()  { return this.sides.filter(s => s.type === 'flat').length; }
+}
+
+class Puzzle {
+    constructor(rows, cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.grid = null;
+    }
+
+    assemble(pieces) {
+        const grid = Array.from({ length: this.rows }, () => Array(this.cols).fill(null));
+        const used = new Set();
+        if (this._solve(grid, used, pieces, 0)) {
+            this.grid = grid;
+            return grid;
+        }
+        throw new Error('Puzzle is unsolvable');
+    }
+
+    _solve(grid, used, pieces, slotIndex) {
+        if (slotIndex === this.rows * this.cols) return true;   // base case: all slots filled
+
+        const r = Math.floor(slotIndex / this.cols);
+        const c = slotIndex % this.cols;
+
+        // Compute what this slot requires
+        const topConstraint   = r === 0 ? 'flat' : grid[r - 1][c].bottom;
+        const leftConstraint  = c === 0 ? 'flat' : grid[r][c - 1].right;
+        const needsBottomFlat = r === this.rows - 1;
+        const needsRightFlat  = c === this.cols - 1;
+
+        // Try every unused piece
+        for (const piece of pieces) {
+            if (used.has(piece.id)) continue;
+            if (!this._pieceFits(piece, topConstraint, leftConstraint, needsBottomFlat, needsRightFlat)) continue;
+
+            grid[r][c] = piece;
+            used.add(piece.id);
+
+            if (this._solve(grid, used, pieces, slotIndex + 1)) return true;
+
+            // Backtrack
+            grid[r][c] = null;
+            used.delete(piece.id);
+        }
+        return false;
+    }
+
+    _pieceFits(piece, topC, leftC, needsBottomFlat, needsRightFlat) {
+        if (topC === 'flat') {
+            if (piece.top.type !== 'flat') return false;
+        } else if (!Side.matches(piece.top, topC)) return false;
+
+        if (leftC === 'flat') {
+            if (piece.left.type !== 'flat') return false;
+        } else if (!Side.matches(piece.left, leftC)) return false;
+
+        if (needsBottomFlat && piece.bottom.type !== 'flat') return false;
+        if (needsRightFlat  && piece.right.type  !== 'flat') return false;
+        return true;
+    }
+}

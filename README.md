@@ -12,7 +12,7 @@ with some in Java.
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
 | Graphs | [`graphs/`](graphs) | BFS, DFS, connected components (adjacency matrix) |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
-| OOD | [`ood/`](ood) | ASCII canvas, 2048, jigsaw puzzle, parking lot, min-heap, topological sort |
+| OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, min-heap, topological sort |
 
 ## Files
 
@@ -44,6 +44,9 @@ with some in Java.
 
 ### Object-Oriented Design (`ood/`)
 - [`asciicanvas.js`](ood/asciicanvas.js) — ASCII canvas drawing engine (PUT / LINE / RECT / CLEAR)
+- [`tests.js`](ood/tests.js) — rectangle canvas: draw, erase area, drag and drop, bring to front
+- [`script.js`](ood/script.js) — scratch pad for the canvas line-drawing helper
+- [`catsandrabbits.js`](ood/catsandrabbits.js) — two-player 7x7 board game with cat / rabbit / snail pieces
 - [`game2048.js`](ood/game2048.js) — 2048 slide/merge logic
 - [`game2048Mock.js`](ood/game2048Mock.js) — 2048 core game modeled as classes
 - [`jiggsawpuzzle.js`](ood/jiggsawpuzzle.js) — jigsaw puzzle model with piece-fit / assemble

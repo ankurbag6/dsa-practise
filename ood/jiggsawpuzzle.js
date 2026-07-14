@@ -117,7 +117,7 @@ Say this word aloud in the interview: **"This is backtracking."** Interviewer im
 - **"Extension: rotation. Add piece.rotate() and try all 4 orientations at each placement. Multiplies search but same algorithm."**
 
 */
-
+/*
 class Side {
     constructor(type, shape = null) {
         this.type = type;      // 'tab' | 'blank' | 'flat'
@@ -203,3 +203,194 @@ class Puzzle {
         return true;
     }
 }
+*/
+/**
+ * Jigsaw Puzzle - Self-contained extended test suite
+ * Includes Puzzle/Piece/Side + 7 test cases
+ */
+
+class Side {
+    constructor(type, shape = null) {
+        this.type = type;
+        this.shape = shape;
+    }
+    static matches(a, b) {
+        if (a.type === 'flat' || b.type === 'flat') return false;
+        if (a.type === b.type) return false;
+        return a.shape === b.shape;
+    }
+}
+
+class Piece {
+    constructor(id, top, right, bottom, left) {
+        this.id = id;
+        this.sides = [top, right, bottom, left];
+    }
+    get top()    { return this.sides[0]; }
+    get right()  { return this.sides[1]; }
+    get bottom() { return this.sides[2]; }
+    get left()   { return this.sides[3]; }
+    flatCount()  { return this.sides.filter(s => s.type === 'flat').length; }
+}
+
+class Puzzle {
+    constructor(rows, cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.grid = null;
+    }
+    assemble(pieces) {
+        const grid = Array.from({ length: this.rows }, () => Array(this.cols).fill(null));
+        const used = new Set();
+        if (this._solve(grid, used, pieces, 0)) {
+            this.grid = grid;
+            return grid;
+        }
+        throw new Error('Puzzle is unsolvable');
+    }
+    _solve(grid, used, pieces, slotIndex) {
+        if (slotIndex === this.rows * this.cols) return true;
+        const r = Math.floor(slotIndex / this.cols);
+        const c = slotIndex % this.cols;
+        const topC   = r === 0 ? 'flat' : grid[r - 1][c].bottom;
+        const leftC  = c === 0 ? 'flat' : grid[r][c - 1].right;
+        const needsBottomFlat = r === this.rows - 1;
+        const needsRightFlat  = c === this.cols - 1;
+        for (const piece of pieces) {
+            if (used.has(piece.id)) continue;
+            if (!this._pieceFits(piece, topC, leftC, needsBottomFlat, needsRightFlat)) continue;
+            grid[r][c] = piece;
+            used.add(piece.id);
+            if (this._solve(grid, used, pieces, slotIndex + 1)) return true;
+            grid[r][c] = null;
+            used.delete(piece.id);
+        }
+        return false;
+    }
+    _pieceFits(piece, topC, leftC, needsBottomFlat, needsRightFlat) {
+        if (topC === 'flat') {
+            if (piece.top.type !== 'flat') return false;
+        } else if (!Side.matches(piece.top, topC)) return false;
+        if (leftC === 'flat') {
+            if (piece.left.type !== 'flat') return false;
+        } else if (!Side.matches(piece.left, leftC)) return false;
+        if (needsBottomFlat && piece.bottom.type !== 'flat') return false;
+        if (needsRightFlat  && piece.right.type  !== 'flat') return false;
+        return true;
+    }
+    getGrid() {
+        if (!this.grid) return null;
+        return this.grid.map(row => row.slice());
+    }
+}
+
+// ==================== Tests ====================
+
+function assert(cond, msg) {
+    if (cond) console.log('PASS:', msg);
+    else { console.error('FAIL:', msg); process.exit(1); }
+}
+
+const flat  = ()      => new Side('flat');
+const tab   = (shape) => new Side('tab', shape);
+const blank = (shape) => new Side('blank', shape);
+
+console.log('\n=== Test 1: 2x2 with ordered input ===');
+{
+    const A = new Piece('A', flat(),   tab(1),   tab(2),   flat());
+    const B = new Piece('B', flat(),   flat(),   tab(3),   blank(1));
+    const C = new Piece('C', blank(2), tab(4),   flat(),   flat());
+    const D = new Piece('D', blank(3), flat(),   flat(),   blank(4));
+    const puzzle = new Puzzle(2, 2);
+    const solution = puzzle.assemble([A, B, C, D]);
+    assert(solution[0][0].id === 'A', 'ordered: (0,0) is A');
+    assert(solution[1][1].id === 'D', 'ordered: (1,1) is D');
+}
+
+console.log('\n=== Test 2: 2x2 with scrambled input ===');
+{
+    const A = new Piece('A', flat(),   tab(1),   tab(2),   flat());
+    const B = new Piece('B', flat(),   flat(),   tab(3),   blank(1));
+    const C = new Piece('C', blank(2), tab(4),   flat(),   flat());
+    const D = new Piece('D', blank(3), flat(),   flat(),   blank(4));
+    const puzzle = new Puzzle(2, 2);
+    const solution = puzzle.assemble([D, C, B, A]);
+    assert(solution[0][0].id === 'A', 'scrambled: (0,0) is A');
+    assert(solution[0][1].id === 'B', 'scrambled: (0,1) is B');
+    assert(solution[1][0].id === 'C', 'scrambled: (1,0) is C');
+    assert(solution[1][1].id === 'D', 'scrambled: (1,1) is D');
+}
+
+console.log('\n=== Test 3: Unsolvable throws ===');
+{
+    const A = new Piece('A', flat(),   tab(1),   tab(2),   flat());
+    const B = new Piece('B', flat(),   flat(),   tab(3),   blank(1));
+    const C = new Piece('C', blank(2), tab(4),   flat(),   flat());
+    const badD = new Piece('badD', blank(99), flat(), flat(), blank(99));
+    let threw = false;
+    try {
+        new Puzzle(2, 2).assemble([A, B, C, badD]);
+    } catch (e) { threw = true; }
+    assert(threw, 'no valid arrangement: throws');
+}
+
+console.log('\n=== Test 4: 3x3 with interior piece ===');
+{
+    const A = new Piece('A', flat(),   tab(1),   tab(7),   flat());
+    const B = new Piece('B', flat(),   tab(2),   tab(9),   blank(1));
+    const C = new Piece('C', flat(),   flat(),   tab(11),  blank(2));
+    const D = new Piece('D', blank(7), tab(3),   tab(8),   flat());
+    const M = new Piece('M', blank(9), tab(4),   tab(10),  blank(3));
+    const E = new Piece('E', blank(11),flat(),   tab(12),  blank(4));
+    const F = new Piece('F', blank(8), tab(5),   flat(),   flat());
+    const G = new Piece('G', blank(10),tab(6),   flat(),   blank(5));
+    const H = new Piece('H', blank(12),flat(),   flat(),   blank(6));
+    const puzzle = new Puzzle(3, 3);
+    const solution = puzzle.assemble([H, G, F, E, M, D, C, B, A]);
+    assert(solution[0][0].id === 'A', '3x3: (0,0) is A');
+    assert(solution[0][1].id === 'B', '3x3: (0,1) is B');
+    assert(solution[1][1].id === 'M', '3x3: (1,1) is M (interior)');
+    assert(solution[2][2].id === 'H', '3x3: (2,2) is H');
+    assert(M.flatCount() === 0, 'M has zero flat sides');
+}
+
+console.log('\n=== Test 5: All-flat piece cannot fit in 2x2 ===');
+{
+    const impossible = new Piece('X', flat(), flat(), flat(), flat());
+    const A = new Piece('A', flat(),   tab(1),   tab(2),   flat());
+    const B = new Piece('B', flat(),   flat(),   tab(3),   blank(1));
+    const C = new Piece('C', blank(2), tab(4),   flat(),   flat());
+    let threw = false;
+    try {
+        new Puzzle(2, 2).assemble([A, B, C, impossible]);
+    } catch (e) { threw = true; }
+    assert(threw, 'all-flat piece cannot complete 2x2: throws');
+}
+
+console.log('\n=== Test 6: getGrid returns a copy ===');
+{
+    const A = new Piece('A', flat(),   tab(1),   tab(2),   flat());
+    const B = new Piece('B', flat(),   flat(),   tab(3),   blank(1));
+    const C = new Piece('C', blank(2), tab(4),   flat(),   flat());
+    const D = new Piece('D', blank(3), flat(),   flat(),   blank(4));
+    const puzzle = new Puzzle(2, 2);
+    puzzle.assemble([A, B, C, D]);
+    const copy = puzzle.getGrid();
+    copy[0][0] = null;
+    assert(puzzle.getGrid()[0][0].id === 'A', 'mutating returned grid does not affect internal');
+}
+
+console.log('\n=== Test 7: Side.matches unit tests ===');
+{
+    assert(Side.matches(tab(5), blank(5))   === true,  'tab-5 fits blank-5');
+    assert(Side.matches(blank(5), tab(5))   === true,  'blank-5 fits tab-5 (symmetric)');
+    assert(Side.matches(tab(5), tab(5))     === false, 'tab-tab does NOT fit');
+    assert(Side.matches(blank(5), blank(5)) === false, 'blank-blank does NOT fit');
+    assert(Side.matches(tab(5), blank(6))   === false, 'shape mismatch: no fit');
+    assert(Side.matches(flat(), tab(5))     === false, 'flat never fits anything');
+    assert(Side.matches(flat(), flat())     === false, 'flat-flat: no fit');
+}
+
+console.log('\n=== All Jigsaw tests passed ===');
+
+

@@ -50,7 +50,7 @@ Game
     gridsEqual(a, b): boolean        // to detect if move changed the board
 
  */
-
+/*
 class Game{
     constructor(m, n, rng = Math.random) {
         this.grid = Array.from({ length: m }, () => Array(n).fill(0));
@@ -248,6 +248,30 @@ class Game{
     }
 
 }
+*/
+/**
+ class model
+ ---------------
+
+ class Game
+ -----------
+ attributes->
+ rows, cols: number
+ grid: numbers[][]
+ constructor(rows, cols, RNG)
+
+ methods->
+ move(direction): boolean // returns true if the grid changes
+ _slideleft(): void
+ _transpose(): void
+ _reverse(): void
+ _hasLegalMove(): boolean
+ _mergeAdjacent(): void
+ getGrid(): numbers[][]
+
+ */
+
+
 
 const g = new Game(4, 4);
 

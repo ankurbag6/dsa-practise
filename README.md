@@ -8,7 +8,7 @@ with some in Java.
 
 | Topic | Folder | Contents |
 | --- | --- | --- |
-| Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, sorted squares, find max/min, sort colors |
+| Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, sorted squares, find max/min, sort colors, buy/sell stock, product except self, longest substring |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
 | Graphs | [`graphs/`](graphs) | BFS, DFS, connected components (adjacency matrix) |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
@@ -25,6 +25,7 @@ with some in Java.
 - [`arraystests.js`](arrays/arraystests.js) — find max/min in an array
 - [`mocktests.js`](arrays/mocktests.js) — sort colors / Dutch National Flag (0s, 1s, 2s)
 - [`mockjune19.js`](arrays/mockjune19.js) — mock interview practice
+- [`arraymocks.js`](arrays/arraymocks.js) — best time to buy/sell stock, product except self, rotate array, longest substring without repeating characters, move zeroes
 
 ### Trees (`trees/`)
 - [`bfstreetraversal.js`](trees/bfstreetraversal.js) — breadth-first (level-order) traversal

@@ -9,6 +9,8 @@ with some in Java.
 | Topic | Folder | Contents |
 | --- | --- | --- |
 | Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, sorted squares, find max/min, sort colors, buy/sell stock, product except self, longest substring |
+| Binary Search | [`binarysearch/`](binarysearch) | First bad build, conflicting appointments, min in rotated array |
+| Sliding Window | [`slidingwindow/`](slidingwindow) | Max sum subarray of size k, smallest subarray with given sum |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
 | Graphs | [`graphs/`](graphs) | BFS, DFS, connected components (adjacency matrix) |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
@@ -26,6 +28,15 @@ with some in Java.
 - [`mocktests.js`](arrays/mocktests.js) — sort colors / Dutch National Flag (0s, 1s, 2s)
 - [`mockjune19.js`](arrays/mockjune19.js) — mock interview practice
 - [`arraymocks.js`](arrays/arraymocks.js) — best time to buy/sell stock, product except self, rotate array, longest substring without repeating characters, move zeroes
+
+### Binary Search (`binarysearch/`)
+- [`badbuild.js`](binarysearch/badbuild.js) — find the first bad build, minimizing `isBad` calls
+- [`conflictingAppointments.js`](binarysearch/conflictingAppointments.js) — detect whether any two appointments overlap
+- [`findMininRotatedArray.js`](binarysearch/findMininRotatedArray.js) — find the minimum in a rotated sorted array
+
+### Sliding Window (`slidingwindow/`)
+- [`maxsum.js`](slidingwindow/maxsum.js) — maximum sum of a subarray of size k
+- [`smallestsubarray.js`](slidingwindow/smallestsubarray.js) — smallest subarray with a sum ≥ target
 
 ### Trees (`trees/`)
 - [`bfstreetraversal.js`](trees/bfstreetraversal.js) — breadth-first (level-order) traversal

@@ -33,6 +33,7 @@ with some in Java.
 - [`badbuild.js`](binarysearch/badbuild.js) — find the first bad build, minimizing `isBad` calls
 - [`conflictingAppointments.js`](binarysearch/conflictingAppointments.js) — detect whether any two appointments overlap
 - [`findMininRotatedArray.js`](binarysearch/findMininRotatedArray.js) — find the minimum in a rotated sorted array
+- [`lonelyelement.js`](binarysearch/lonelyelement.js) — find the single element in a sorted array where every other element appears twice
 
 ### Sliding Window (`slidingwindow/`)
 - [`maxsum.js`](slidingwindow/maxsum.js) — maximum sum of a subarray of size k
@@ -56,6 +57,7 @@ with some in Java.
 
 ### Object-Oriented Design (`ood/`)
 - [`asciicanvas.js`](ood/asciicanvas.js) — ASCII canvas drawing engine (PUT / LINE / RECT / CLEAR)
+- [`asciiprinter_actual.js`](ood/asciiprinter_actual.js) — rectangle canvas with draw order and bring-to-front
 - [`tests.js`](ood/tests.js) — rectangle canvas: draw, erase area, drag and drop, bring to front
 - [`script.js`](ood/script.js) — scratch pad for the canvas line-drawing helper
 - [`catsandrabbits.js`](ood/catsandrabbits.js) — two-player 7x7 board game with cat / rabbit / snail pieces

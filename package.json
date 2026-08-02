@@ -1,0 +1,24 @@
+{
+  "name": "dsa-practise",
+  "version": "1.0.0",
+  "description": "Data structures and algorithms practice — a collection of solutions to common interview-style problems, organized by topic. Most solutions are in JavaScript, with some in Java.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankurbag6/dsa-practise.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ankurbag6/dsa-practise/issues"
+  },
+  "homepage": "https://github.com/ankurbag6/dsa-practise#readme",
+  "dependencies": {
+    "heap-js": "^2.7.1"
+  }
+}

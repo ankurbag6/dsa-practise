@@ -9,12 +9,13 @@ with some in Java.
 | Topic | Folder | Contents |
 | --- | --- | --- |
 | Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, sorted squares, find max/min, sort colors, buy/sell stock, product except self, longest substring |
-| Binary Search | [`binarysearch/`](binarysearch) | First bad build, conflicting appointments, min in rotated array |
+| Binary Search | [`binarysearch/`](binarysearch) | First bad build, conflicting appointments, min in rotated array, lonely element |
 | Sliding Window | [`slidingwindow/`](slidingwindow) | Max sum subarray of size k, smallest subarray with given sum |
+| Heaps | [`minheapmaxheap/`](minheapmaxheap) | Min-heap from scratch, top-k patterns, the same problems via `heap-js` |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
 | Graphs | [`graphs/`](graphs) | BFS, DFS, connected components (adjacency matrix) |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
-| OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, min-heap, topological sort |
+| OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, topological sort |
 
 ## Files
 
@@ -39,6 +40,13 @@ with some in Java.
 - [`maxsum.js`](slidingwindow/maxsum.js) — maximum sum of a subarray of size k
 - [`smallestsubarray.js`](slidingwindow/smallestsubarray.js) — smallest subarray with a sum ≥ target
 
+### Heaps (`minheapmaxheap/`)
+- [`minheap.js`](minheapmaxheap/minheap.js) — min-heap built from scratch (sift-up / sift-down), plus three top-k
+  patterns driven entirely by the comparator: kth largest element, top-k frequent tags with alphabetical
+  tie-breaking, and k closest points to the origin (max-heap via a flipped comparator)
+- [`kth-largest-heapjs.js`](minheapmaxheap/kth-largest-heapjs.js) — the same kth-largest problem using the
+  [`heap-js`](https://github.com/ignlg/heap-js) library, with a fuzz test against a sort-based reference
+
 ### Trees (`trees/`)
 - [`bfstreetraversal.js`](trees/bfstreetraversal.js) — breadth-first (level-order) traversal
 - [`dfstreetraversal.js`](trees/dfstreetraversal.js) — depth-first traversal / path sum
@@ -58,22 +66,29 @@ with some in Java.
 ### Object-Oriented Design (`ood/`)
 - [`asciicanvas.js`](ood/asciicanvas.js) — ASCII canvas drawing engine (PUT / LINE / RECT / CLEAR)
 - [`asciiprinter_actual.js`](ood/asciiprinter_actual.js) — rectangle canvas with draw order and bring-to-front
-- [`tests.js`](ood/tests.js) — rectangle canvas: draw, erase area, drag and drop, bring to front
 - [`script.js`](ood/script.js) — scratch pad for the canvas line-drawing helper
 - [`catsandrabbits.js`](ood/catsandrabbits.js) — two-player 7x7 board game with cat / rabbit / snail pieces
 - [`game2048.js`](ood/game2048.js) — 2048 slide/merge logic
 - [`game2048Mock.js`](ood/game2048Mock.js) — 2048 core game modeled as classes
 - [`jiggsawpuzzle.js`](ood/jiggsawpuzzle.js) — jigsaw puzzle model with piece-fit / assemble
 - [`parkinglot.js`](ood/parkinglot.js) — parking lot design
-- [`minheap.js`](ood/minheap.js) — min-heap implementation
 - [`toposort.js`](ood/toposort.js) — topological sort (Kahn's algorithm)
 
 ## Running
 
-JavaScript files run with Node:
+Most files are standalone and run with Node directly:
 
 ```bash
 node arrays/reversearrays.js
+```
+
+Files are ES modules (`"type": "module"` in `package.json`). Only
+[`minheapmaxheap/kth-largest-heapjs.js`](minheapmaxheap/kth-largest-heapjs.js) has a dependency, so install
+once before running it:
+
+```bash
+npm install
+node minheapmaxheap/kth-largest-heapjs.js
 ```
 
 The Java file can be compiled and run with:

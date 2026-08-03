@@ -45,4 +45,62 @@ function maxSum(nums, k) {
 }
 
 
-console.log(maxSum([2,1,5,1,3,2], 3));
+console.log(maxSum([-1,2,3,4,5,-9,8,4], 3));
+
+
+/*
+Given an array of integers and k, 
+return the maximum sum of any contiguous subarray of length exactly k
+[2,1,5,1,3,2], k=3 → 9.
+
+sum = 0
+maxSum = 0
+l = 0
+[2,1,5,1,3,2]
+   l   l
+sum += arr[l] .. till l<k
+if(i==k) {
+ maxSum = Math.max(maxSum, sum);
+ l++
+}
+decremment i by k
+i-=k;
+*/
+
+function findmaxSum(nums, k) { // [2,1,5,1,3,2] , 3
+    if(nums.length === 0 || nums === undefined) return -1;
+    if(nums.length<=k) {
+        return nums.reduce((acc, num) => acc + num, 0);
+    }
+    let maxSum = -Infinity;
+    let l=0, i=0;
+    let sum=0;
+    while(i<nums.length) { // 0 <6  // 1 <6 2 <6   // 2
+        if(i-l<k) { // 0 - 0 // 1 - 0 // 2- 0.  // 1-1 // 2-1 // 3-1 // 4- 1
+            sum += nums[i]; // 2 // 3 // 8  // 1 // 6 // 7
+            i++; // 1 // 2 // 3 // 2 // 3 // 4
+        }
+        else if(i-l === k) { 
+            maxSum = Math.max(maxSum, sum);  // 8 // 8
+            while(i>l) { // 3 >=0  // 2>=0  // 4 >=1 // 3>=1 // 2>=1 // 1>=1
+                i--; // 2 //1 // 0 // 3 // 2 // 1
+                sum -= nums[i]; // 8-5 = 3 // 2 // 0 // 7-1 = 6 //6-5=1 // 1- 1
+                
+            }
+            l++; // 2
+            i=l; // 2
+            
+        }
+        
+    }
+
+    return maxSum;
+
+}
+
+
+console.log(findmaxSum([2,1,5,1,3,2], 3));
+
+console.log(findmaxSum([1,1,1,1], 3));
+
+console.log(findmaxSum([-1,2,3,4,5,-9,8,4], 3));

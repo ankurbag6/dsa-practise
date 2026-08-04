@@ -1,9 +1,15 @@
 // Adj Matrix
-const graph = [['1', '1', '0', '0'],
+const graph1 = 
+[
+['1', '1', '0', '0'],
 ['1', '1', '0', '0'],
 ['0', '0', '1', '0'],
 ['0', '0', '0', '1']];
 
+const graph = [
+  ['0', '1'],
+  ['1', '0'],
+];
 // Initiate Visited array
 const visited = new Array(graph.length).fill(-1);
 const connectedComponents = [];
@@ -20,11 +26,11 @@ function bfs(src) {
         console.log("node::", node);
         order.push(node);
         // get neighbours of src
-        for (let neighbour = 0; neighbour < graph.length; neighbour++) {
+        for (let neighbour = 0; neighbour < graph[0].length; neighbour++) {
             console.log("node, neighbour, graph[node][neighbour]", node, neighbour, graph[node][neighbour]);
             if (graph[node][neighbour] === '1' && visited[neighbour] === -1) {
                 visited[neighbour] = 1;
-                q.push(neighbour)
+                q.push(neighbour);
             }
         }
 

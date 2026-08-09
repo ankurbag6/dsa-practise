@@ -10,12 +10,13 @@ with some in Java.
 | --- | --- | --- |
 | Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, sorted squares, find max/min, sort colors, buy/sell stock, product except self, longest substring |
 | Binary Search | [`binarysearch/`](binarysearch) | First bad build, conflicting appointments, min in rotated array, lonely element |
-| Sliding Window | [`slidingwindow/`](slidingwindow) | Max sum subarray of size k, smallest subarray with given sum |
+| Sliding Window | [`slidingwindow/`](slidingwindow) | Max sum subarray of size k, smallest subarray with given sum, longest substring with at most k distinct characters |
+| Merge Intervals | [`mergeIntervals/`](mergeIntervals) | Insert into a sorted interval list, interval list intersections |
 | Heaps | [`minheapmaxheap/`](minheapmaxheap) | Min-heap from scratch, top-k patterns, the same problems via `heap-js` |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
-| Graphs | [`graphs/`](graphs) | BFS, DFS, connected components (adjacency matrix) |
+| Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid) |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
-| OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, topological sort |
+| OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, elevator system, topological sort |
 
 ## Files
 
@@ -39,6 +40,13 @@ with some in Java.
 ### Sliding Window (`slidingwindow/`)
 - [`maxsum.js`](slidingwindow/maxsum.js) — maximum sum of a subarray of size k
 - [`smallestsubarray.js`](slidingwindow/smallestsubarray.js) — smallest subarray with a sum ≥ target
+- [`distinctconstraint.js`](slidingwindow/distinctconstraint.js) — longest substring with at most k distinct characters
+
+### Merge Intervals (`mergeIntervals/`)
+- [`insertInIntervals.js`](mergeIntervals/insertInIntervals.js) — insert a new interval into a sorted,
+  non-overlapping list and keep it merged
+- [`intervalIntersections.js`](mergeIntervals/intervalIntersections.js) — intersections of two sorted
+  interval lists, via two pointers
 
 ### Heaps (`minheapmaxheap/`)
 - [`minheap.js`](minheapmaxheap/minheap.js) — min-heap built from scratch (sift-up / sift-down), plus three top-k
@@ -59,6 +67,7 @@ with some in Java.
 - [`bfstraversal.js`](graphs/bfstraversal.js) — breadth-first traversal over an adjacency matrix
 - [`dfstraversal.js`](graphs/dfstraversal.js) — depth-first (recursive) traversal over an adjacency matrix
 - [`connectedcomponent.js`](graphs/connectedcomponent.js) — find connected components via BFS
+- [`countIsland.js`](graphs/countIsland.js) — number of islands in a grid, via BFS over 4-directional neighbours
 
 ### Sorting (`sorting/`)
 - [`SelectionSort.java`](sorting/SelectionSort.java) — selection sort
@@ -72,6 +81,9 @@ with some in Java.
 - [`game2048Mock.js`](ood/game2048Mock.js) — 2048 core game modeled as classes
 - [`jiggsawpuzzle.js`](ood/jiggsawpuzzle.js) — jigsaw puzzle model with piece-fit / assemble
 - [`parkinglot.js`](ood/parkinglot.js) — parking lot design
+- [`elevator.js`](ood/elevator.js) — elevator design worked through from assumptions to a first model
+- [`elevator_final.js`](ood/elevator_final.js) — elevator system using the SCAN/LOOK algorithm, with hall vs.
+  car requests modeled separately and a controller over the car
 - [`toposort.js`](ood/toposort.js) — topological sort (Kahn's algorithm)
 
 ## Running

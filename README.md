@@ -15,6 +15,7 @@ with some in Java.
 | Heaps | [`minheapmaxheap/`](minheapmaxheap) | Min-heap from scratch, top-k patterns, the same problems via `heap-js` |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
 | Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid) |
+| Dynamic Programming | [`dynamic-programming/`](dynamic-programming) | Fibonacci via top-down memoization and bottom-up tabulation, each with a written deep-dive |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
 | OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, elevator system, topological sort |
 
@@ -68,6 +69,27 @@ with some in Java.
 - [`dfstraversal.js`](graphs/dfstraversal.js) — depth-first (recursive) traversal over an adjacency matrix
 - [`connectedcomponent.js`](graphs/connectedcomponent.js) — find connected components via BFS
 - [`countIsland.js`](graphs/countIsland.js) — number of islands in a grid, via BFS over 4-directional neighbours
+
+### Dynamic Programming (`dynamic-programming/`)
+
+Fibonacci solved both ways, with a written deep-dive alongside each. The `.md` files work
+through the same problem at production scale — cache lifetime and semantics, `Number`
+precision limits, V8 allocation behaviour, evaluation order, memory bounds, and the
+observability needed to tell whether any of it is earning its keep. Every claim in them is
+measured on Node, with the reproducing scripts included.
+
+- [`top-down-memoization/fibonacci.js`](dynamic-programming/top-down-memoization/fibonacci.js) — recursive
+  Fibonacci with a memo table
+- [`top-down-memoization/fibonacci_expansions.md`](dynamic-programming/top-down-memoization/fibonacci_expansions.md) —
+  why the memo must outlive the call, why `if (memo[n])` is a latent bug, `Number` going silently wrong from
+  `fib(79)`, V8's ~10,398-frame stack limit, cache eviction and stampedes, and why fast doubling (6.8 ms vs.
+  6,000 ms at n = 10⁶) deletes the need for most of it
+- [`bottom-up-tabulation/fibonacci.js`](dynamic-programming/bottom-up-tabulation/fibonacci.js) — iterative
+  Fibonacci over a DP table
+- [`bottom-up-tabulation/fibonacci_expansions.md`](dynamic-programming/bottom-up-tabulation/fibonacci_expansions.md) —
+  error contracts vs. in-band sentinels, input validation ordering, V8 elements kinds across four ways to
+  allocate an array, rolling-window space optimization (6× faster, 100× less memory), topological order as a
+  silent correctness hazard, and when tabulation is asymptotically the wrong choice
 
 ### Sorting (`sorting/`)
 - [`SelectionSort.java`](sorting/SelectionSort.java) — selection sort

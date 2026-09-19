@@ -8,14 +8,16 @@ with some in Java.
 
 | Topic | Folder | Contents |
 | --- | --- | --- |
-| Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, sorted squares, find max/min, sort colors, buy/sell stock, product except self, longest substring |
+| Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, remove element, sorted squares, find max/min, sort colors, buy/sell stock, product except self, longest substring, contains nearby duplicate, majority element, longest common prefix, valid parentheses |
+| Two Pointers | [`two-pointers/`](two-pointers) | Move zeroes (both directions), container with most water, triangle number triplets |
 | Binary Search | [`binarysearch/`](binarysearch) | First bad build, conflicting appointments, min in rotated array, lonely element |
-| Sliding Window | [`slidingwindow/`](slidingwindow) | Max sum subarray of size k, smallest subarray with given sum, longest substring with at most k distinct characters |
-| Merge Intervals | [`mergeIntervals/`](mergeIntervals) | Insert into a sorted interval list, interval list intersections |
+| Sliding Window | [`slidingwindow/`](slidingwindow) | Max sum subarray of size k, smallest subarray with given sum, longest substring with at most k distinct characters, max points from cards, max sum of a distinct-element window |
+| Maps | [`maps/`](maps) | Group anagrams, first repeated session ID in one pass, counting subarrays with a target sum |
+| Merge Intervals | [`mergeIntervals/`](mergeIntervals) | Insert into a sorted interval list, interval list intersections, can-attend-all-meetings, minimum removals to de-overlap |
 | Heaps | [`minheapmaxheap/`](minheapmaxheap) | Min-heap from scratch, top-k patterns, the same problems via `heap-js` |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
 | Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid) |
-| Dynamic Programming | [`dynamic-programming/`](dynamic-programming) | Fibonacci via top-down memoization and bottom-up tabulation, each with a written deep-dive |
+| Dynamic Programming | [`dynamic-programming/`](dynamic-programming) | Fibonacci via top-down memoization and bottom-up tabulation, each with a written deep-dive; climbing stairs, unique grid paths |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
 | OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, elevator system, topological sort |
 
@@ -26,11 +28,21 @@ with some in Java.
 - [`moveZeroes.js`](arrays/moveZeroes.js) — move all zeroes to the end, preserving order
 - [`rotateArray.js`](arrays/rotateArray.js) — rotate the array by one position
 - [`removeDuplicates.js`](arrays/removeDuplicates.js) — remove duplicates from a sorted array in-place
+- [`removeElements.js`](arrays/removeElements.js) — remove every instance of a value in-place with a read/write pointer pair, returning the new length
 - [`sortedSquares.js`](arrays/sortedSquares.js) — squares of a sorted array, sorted
 - [`arraystests.js`](arrays/arraystests.js) — find max/min in an array
 - [`mocktests.js`](arrays/mocktests.js) — sort colors / Dutch National Flag (0s, 1s, 2s)
 - [`mockjune19.js`](arrays/mockjune19.js) — mock interview practice
+- [`containsduplicates.js`](arrays/containsduplicates.js) — contains nearby duplicate (equal values within k indices), solved twice: a map of every index per value, and a sliding-window `Set` holding only the last k values
+- [`majorityelement.js`](arrays/majorityelement.js) — the element appearing more than ⌊n/2⌋ times, via a frequency map
+- [`longestCommonPrefix.js`](arrays/longestCommonPrefix.js) — longest common prefix, by horizontal scan (shrink a candidate) and vertical scan (compare column by column)
+- [`validparenthesis.js`](arrays/validparenthesis.js) — valid parentheses, matching closers against a stack of unclosed openers
 - [`arraymocks.js`](arrays/arraymocks.js) — best time to buy/sell stock, product except self, rotate array, longest substring without repeating characters, move zeroes
+
+### Two Pointers (`two-pointers/`)
+- [`movezeroes.js`](two-pointers/movezeroes.js) — move zeroes to either end, with the pointer traces worked out in comments
+- [`containerwithwater.js`](two-pointers/containerwithwater.js) — container with most water; always step the pointer at the *shorter* wall inward, since the short wall caps the height and moving the taller one can only lose width
+- [`triangle-nums.js`](two-pointers/triangle-nums.js) — count triplets that can form a triangle (sort, then for each largest side sweep a pair inward)
 
 ### Binary Search (`binarysearch/`)
 - [`badbuild.js`](binarysearch/badbuild.js) — find the first bad build, minimizing `isBad` calls
@@ -42,12 +54,21 @@ with some in Java.
 - [`maxsum.js`](slidingwindow/maxsum.js) — maximum sum of a subarray of size k
 - [`smallestsubarray.js`](slidingwindow/smallestsubarray.js) — smallest subarray with a sum ≥ target
 - [`distinctconstraint.js`](slidingwindow/distinctconstraint.js) — longest substring with at most k distinct characters
+- [`maxPointsCards.js`](slidingwindow/maxPointsCards.js) — max points from picking k cards off either end, reframed as the *smallest* window of the cards you leave behind
+- [`maxSuminDistinct.js`](slidingwindow/maxSuminDistinct.js) — max sum of a length-k subarray whose elements are all distinct
+
+### Maps (`maps/`)
+- [`anagrambuckets.js`](maps/anagrambuckets.js) — group anagrams, with both standard map keys: a letter-count signature (O(k) per word) and the sorted word (O(k log k)), checked against each other
+- [`duplicatesessiondetector.js`](maps/duplicatesessiondetector.js) — first session ID to repeat, in a single pass
+- [`refundmatcher.js`](maps/refundmatcher.js) — count subarrays summing to a target, using prefix-sum counts; includes the write-up of why a grow/shrink window has no valid invariant once values can be negative
 
 ### Merge Intervals (`mergeIntervals/`)
 - [`insertInIntervals.js`](mergeIntervals/insertInIntervals.js) — insert a new interval into a sorted,
   non-overlapping list and keep it merged
 - [`intervalIntersections.js`](mergeIntervals/intervalIntersections.js) — intersections of two sorted
   interval lists, via two pointers
+- [`canattendmeetings.js`](mergeIntervals/canattendmeetings.js) — whether any two meetings overlap, after sorting by start
+- [`nonoverlapping.js`](mergeIntervals/nonoverlapping.js) — fewest intervals to remove so the rest don't overlap; greedy on earliest end time
 
 ### Heaps (`minheapmaxheap/`)
 - [`minheap.js`](minheapmaxheap/minheap.js) — min-heap built from scratch (sift-up / sift-down), plus three top-k
@@ -90,6 +111,10 @@ measured on Node, with the reproducing scripts included.
   error contracts vs. in-band sentinels, input validation ordering, V8 elements kinds across four ways to
   allocate an array, rolling-window space optimization (6× faster, 100× less memory), topological order as a
   silent correctness hazard, and when tabulation is asymptotically the wrong choice
+- [`bottom-up-tabulation/climiningnstairs.js`](dynamic-programming/bottom-up-tabulation/climiningnstairs.js) — climbing
+  stairs in 1- or 2-step moves, kept in three rolling slots indexed `i % 3` instead of a full table
+- [`bottom-up-tabulation/countuniqpath.js`](dynamic-programming/bottom-up-tabulation/countuniqpath.js) — unique paths
+  through a grid moving only down or right, counted by plain recursive DFS (no memo yet — the obvious next step)
 
 ### Sorting (`sorting/`)
 - [`SelectionSort.java`](sorting/SelectionSort.java) — selection sort

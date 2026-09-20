@@ -9,7 +9,7 @@ with some in Java.
 | Topic | Folder | Contents |
 | --- | --- | --- |
 | Arrays | [`arrays/`](arrays) | Reverse, move zeroes, rotate, remove duplicates, remove element, sorted squares, find max/min, sort colors, buy/sell stock, product except self, longest substring, contains nearby duplicate, majority element, longest common prefix, valid parentheses |
-| Two Pointers | [`two-pointers/`](two-pointers) | Move zeroes (both directions), container with most water, triangle number triplets |
+| Two Pointers | [`two-pointers/`](two-pointers) | Move zeroes, container with most water, triangle number triplets |
 | Binary Search | [`binarysearch/`](binarysearch) | First bad build, conflicting appointments, min in rotated array, lonely element |
 | Sliding Window | [`slidingwindow/`](slidingwindow) | Max sum subarray of size k, smallest subarray with given sum, longest substring with at most k distinct characters, max points from cards, max sum of a distinct-element window |
 | Maps | [`maps/`](maps) | Group anagrams, first repeated session ID in one pass, counting subarrays with a target sum |
@@ -40,7 +40,7 @@ with some in Java.
 - [`arraymocks.js`](arrays/arraymocks.js) — best time to buy/sell stock, product except self, rotate array, longest substring without repeating characters, move zeroes
 
 ### Two Pointers (`two-pointers/`)
-- [`movezeroes.js`](two-pointers/movezeroes.js) — move zeroes to either end, with the pointer traces worked out in comments
+- [`movezeroes.js`](two-pointers/movezeroes.js) — move zeroes to the end via a single `nextNonZero` write pointer; the earlier swap-hunting version that took a direction argument is kept commented out above it, with its pointer traces
 - [`containerwithwater.js`](two-pointers/containerwithwater.js) — container with most water; always step the pointer at the *shorter* wall inward, since the short wall caps the height and moving the taller one can only lose width
 - [`triangle-nums.js`](two-pointers/triangle-nums.js) — count triplets that can form a triangle (sort, then for each largest side sweep a pair inward)
 

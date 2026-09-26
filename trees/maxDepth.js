@@ -7,5 +7,5 @@ function findMaxDepth(node) {
 
     const left = findMaxDepth(node.left);
     const right = findMaxDepth(node.right);
-    return 1 + Math.max(left + right);
+    return 1 + Math.max(left , right);
 }

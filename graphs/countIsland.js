@@ -21,7 +21,7 @@ const graph3 = [
 */
 let visited = Array(graph.length).fill(0); 
 const connectedComponents = [];
-const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+const dirs = [[1,0],[-1,0],[0,1],[0,-1],[-1,-1],[1,1],[-1,1],[1,-1]];
 const rows = graph.length;
 const cols = graph[0].length;
 function countIsland() {
@@ -35,8 +35,9 @@ function countIsland() {
     for(let r=0; r<rows; r++) {
         for(let c=0;c<cols; c++) {
             if(graph[r][c] === '1') {
-                count++;
                 bfs([r,c])
+                count++;
+                
             }
         }
     }

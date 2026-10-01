@@ -15,7 +15,7 @@ with some in Java.
 | Maps | [`maps/`](maps) | Group anagrams, first repeated session ID in one pass, counting subarrays with a target sum |
 | Merge Intervals | [`mergeIntervals/`](mergeIntervals) | Insert into a sorted interval list, interval list intersections, can-attend-all-meetings, minimum removals to de-overlap |
 | Heaps | [`minheapmaxheap/`](minheapmaxheap) | Min-heap from scratch, top-k patterns, the same problems via `heap-js` |
-| Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, path sum, max depth, same-tree, node definitions |
+| Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, level-order sums, right side view, root-to-leaf target sum, sum of all nodes, max value, max depth, same-tree, node definitions |
 | Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid) |
 | Dynamic Programming | [`dynamic-programming/`](dynamic-programming) | Fibonacci via top-down memoization and bottom-up tabulation, each with a written deep-dive; climbing stairs, unique grid paths |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
@@ -81,6 +81,12 @@ with some in Java.
 - [`bfstreetraversal.js`](trees/bfstreetraversal.js) — breadth-first (level-order) traversal
 - [`dfstreetraversal.js`](trees/dfstreetraversal.js) — depth-first traversal / path sum
 - [`iterativetreetraversal.js`](trees/iterativetreetraversal.js) — iterative pre-order traversal
+- [`bfs_levelordersum.js`](trees/bfs_levelordersum.js) — sum of each level, processing the queue one level at a time
+- [`righmostnode.js`](trees/righmostnode.js) — right side view: the last node of each BFS level
+- [`hasTargetinTree.js`](trees/hasTargetinTree.js) — whether some root-to-leaf path sums to a target, subtracting each node's value on the way down
+- [`sumofpath.js`](trees/sumofpath.js) — sum of every node value in the tree, with a table of test cases
+- [`maxinatree.js`](trees/maxinatree.js) — largest value in the tree, with `-Infinity` for an empty subtree
+- [`maxDepth.js`](trees/maxDepth.js) — max depth via recursive DFS
 - [`Nodes.js`](trees/Nodes.js) — tree node class definition
 - [`mockjune19.js`](trees/mockjune19.js) — max depth of a binary tree
 - [`mockjune21.js`](trees/mockjune21.js) — same-tree comparison

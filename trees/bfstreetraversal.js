@@ -14,7 +14,7 @@ function bfs(node) {
             // remove the node --> add to the res[]
             // if node.left --> add to the queue
             // if node.right --> add to the queue
-    while(q.length === 0) {
+    while(q.length !== 0) {
         for(let qn of q) {
 
             res.push(q.shift());
@@ -25,19 +25,38 @@ function bfs(node) {
     return res;
 }
 
-function naryBfs(node) {
-    // BFS pattern
-    // create a q, res
-    // add root to the q
-    // while q not empty
-        // for all the qelemts
-            //enqueue the element
-            // add the qelemt to res
-            // get all the childrenof qelemts
-            // push to the q
+/**
+ * // Definition for a _Node.
+ * function _Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
 
-    // return res
-}
+/**
+ * @param {_Node|null} root
+ * @return {number[][]}
+ */
+var NAryLevelorder = function(root) {
+    if(!root) return [[]];
+
+    let result = [];
+    const q = [root];
+
+    while(q.length != 0) {
+        let count = q.length;
+        let temp = [];
+        for(let i=0; i<count; i++) {
+
+            let currnode = q.shift();
+            temp.push(currnode.val);
+            let children = currnode.children;
+            for(const c of children) q.push(c);
+        }
+        result.push(temp);
+    }
+    return result;
+};
 
 function zigzag(node) {
     // I will implement BFS
@@ -87,3 +106,87 @@ function binaryTreeRight() {
 }
 
 // bfs(new Node(), )
+
+// ---------------------------------------------------------------------------
+// tests
+// ---------------------------------------------------------------------------
+
+const leaf = (val) => ({ val, left: null, right: null });
+const node = (val, left, right) => ({ val, left, right });
+const nary = (val, children = []) => ({ val, children });
+
+//        1
+//      /   \
+//     2     3
+//    / \   / \
+//   4   5 6   7
+const full = node(1, node(2, leaf(4), leaf(5)), node(3, leaf(6), leaf(7)));
+
+//     1
+//    / \
+//   2   3
+//      / \
+//     4   5
+const rightHeavy = node(1, leaf(2), node(3, leaf(4), leaf(5)));
+
+//        1
+//      / | \
+//     3  2  4
+//    / \
+//   5   6
+const naryTree = nary(1, [nary(3, [nary(5), nary(6)]), nary(2), nary(4)]);
+
+const suites = [
+    ["bfs", bfs, [
+        ["empty tree",       null,                                    []],
+        ["single node",      leaf(1),                                 [1]],
+        ["root + 2 leaves",  node(1, leaf(2), leaf(3)),               [1, 2, 3]],
+        ["right-heavy",      rightHeavy,                              [1, 2, 3, 4, 5]],
+        ["full 3 levels",    full,                                    [1, 2, 3, 4, 5, 6, 7]],
+        ["left-skewed",      node(1, node(2, leaf(3), null), null),   [1, 2, 3]],
+        ["right-skewed",     node(1, null, node(2, null, leaf(3))),   [1, 2, 3]],
+    ]],
+    ["NAryLevelorder", NAryLevelorder, [
+        ["empty tree",       null,                                    []],
+        ["single node",      nary(1),                                 [[1]]],
+        ["3 levels",         naryTree,                                [[1], [3, 2, 4], [5, 6]]],
+        ["chain",            nary(1, [nary(2, [nary(3)])]),           [[1], [2], [3]]],
+    ]],
+    ["zigzag", zigzag, [
+        ["empty tree",       null,                                    []],
+        ["single node",      leaf(1),                                 [[1]]],
+        ["full 3 levels",    full,                                    [[1], [3, 2], [4, 5, 6, 7]]],
+        ["right-heavy",      rightHeavy,                              [[1], [3, 2], [4, 5]]],
+    ]],
+    ["binaryTreeRight", binaryTreeRight, [
+        ["empty tree",       null,                                    []],
+        ["single node",      leaf(1),                                 [1]],
+        ["right-heavy",      rightHeavy,                              [1, 3, 5]],
+        ["left-only branch", node(1, node(2, null, leaf(5)), leaf(3)), [1, 3, 5]],
+        ["full 3 levels",    full,                                    [1, 3, 7]],
+    ]],
+];
+
+// JSON.stringify(NaN) is "null" and undefined vanishes — report them as themselves
+const show = (v) => (typeof v === "number" || v === undefined ? String(v) : JSON.stringify(v));
+
+let passed = 0, total = 0;
+for (const [fnName, fn, cases] of suites) {
+    console.log(`\n${fnName}`);
+    for (const [name, tree, expected] of cases) {
+        total++;
+        let got, threw = null;
+        try {
+            got = fn(tree);
+        } catch (e) {
+            threw = `${e.constructor.name}: ${e.message}`;
+        }
+        const ok = threw === null && JSON.stringify(got) === JSON.stringify(expected);
+        if (ok) passed++;
+        console.log(
+            `  ${ok ? "PASS" : "FAIL"}  ${name.padEnd(18)} expected ${JSON.stringify(expected)}` +
+            (ok ? "" : `  got ${threw ?? show(got)}`)
+        );
+    }
+}
+console.log(`\n${passed}/${total} passed`);

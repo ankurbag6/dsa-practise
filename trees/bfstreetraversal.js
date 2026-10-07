@@ -153,6 +153,34 @@ function binaryTreeRight(root) {
 
 }
 
+var levelOrderBottom = function(root) {
+    if(!root) return [];
+
+    const q = [root];
+    const res = [];
+    while(q.length !== 0) {
+        let qCount = q.length;
+        let temp = [];
+
+        for(let i=0; i<qCount; i++) {
+            let currnode = q.shift();
+            temp.push(currnode.val);
+
+            if(currnode.left) q.push(currnode.left);
+            if(currnode.right) q.push(currnode.right);
+
+        }
+        res.push(temp);
+    }
+    let output = [];
+    let j=0;
+    for(let i=res.length-1; i>=0; i--) {
+        output[j++] = res[i];
+    }
+
+    return output;
+};
+
 // bfs(new Node(), )
 
 // ---------------------------------------------------------------------------
@@ -184,6 +212,43 @@ const rightHeavy = node(1, leaf(2), node(3, leaf(4), leaf(5)));
 //   5   6
 const naryTree = nary(1, [nary(3, [nary(5), nary(6)]), nary(2), nary(4)]);
 
+// 4 levels, so zigzag has to flip direction more than once
+//          1
+//        /   \
+//       2     3
+//      / \     \
+//     4   5     6
+//    /         / \
+//   7         8   9
+const deep = node(1, node(2, node(4, leaf(7), null), leaf(5)), node(3, null, node(6, leaf(8), leaf(9))));
+
+// left side runs deeper than the right, so the right side view
+// has to pick up nodes from the left subtree
+//       1
+//      / \
+//     2   3
+//    /
+//   4
+//    \
+//     5
+const leftDeep = node(1, node(2, node(4, null, leaf(5)), null), leaf(3));
+
+// zeros and negatives: values are falsy or below zero, nodes still exist
+//       0
+//      / \
+//    -1   -2
+//        /
+//       0
+const zerosNegs = node(0, leaf(-1), node(-2, leaf(0), null));
+
+// LeetCode 429 example 2
+const naryWide = nary(1, [
+    nary(2),
+    nary(3, [nary(6), nary(7, [nary(11, [nary(14)])])]),
+    nary(4, [nary(8, [nary(12)])]),
+    nary(5, [nary(9, [nary(13)]), nary(10)]),
+]);
+
 const suites = [
     ["bfs", bfs, [
         ["empty tree",       null,                                    []],
@@ -193,18 +258,26 @@ const suites = [
         ["full 3 levels",    full,                                    [1, 2, 3, 4, 5, 6, 7]],
         ["left-skewed",      node(1, node(2, leaf(3), null), null),   [1, 2, 3]],
         ["right-skewed",     node(1, null, node(2, null, leaf(3))),   [1, 2, 3]],
+        ["4 levels, sparse", deep,                                    [1, 2, 3, 4, 5, 6, 7, 8, 9]],
+        ["left runs deeper", leftDeep,                                [1, 2, 3, 4, 5]],
+        ["zeros/negatives",  zerosNegs,                               [0, -1, -2, 0]],
     ]],
     ["NAryLevelorder", NAryLevelorder, [
         ["empty tree",       null,                                    []],
         ["single node",      nary(1),                                 [[1]]],
         ["3 levels",         naryTree,                                [[1], [3, 2, 4], [5, 6]]],
         ["chain",            nary(1, [nary(2, [nary(3)])]),           [[1], [2], [3]]],
+        ["wide, 5 levels",   naryWide,                                [[1], [2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13], [14]]],
+        ["zero values",      nary(0, [nary(0), nary(-1)]),            [[0], [0, -1]]],
     ]],
     ["zigzag", zigzag, [
         ["empty tree",       null,                                    []],
         ["single node",      leaf(1),                                 [[1]]],
         ["full 3 levels",    full,                                    [[1], [3, 2], [4, 5, 6, 7]]],
         ["right-heavy",      rightHeavy,                              [[1], [3, 2], [4, 5]]],
+        ["4 levels, sparse", deep,                                    [[1], [3, 2], [4, 5, 6], [9, 8, 7]]],
+        ["left runs deeper", leftDeep,                                [[1], [3, 2], [4], [5]]],
+        ["zeros/negatives",  zerosNegs,                               [[0], [-2, -1], [0]]],
     ]],
     ["binaryTreeRight", binaryTreeRight, [
         ["empty tree",       null,                                    []],
@@ -212,6 +285,18 @@ const suites = [
         ["right-heavy",      rightHeavy,                              [1, 3, 5]],
         ["left-only branch", node(1, node(2, null, leaf(5)), leaf(3)), [1, 3, 5]],
         ["full 3 levels",    full,                                    [1, 3, 7]],
+        ["4 levels, sparse", deep,                                    [1, 3, 6, 9]],
+        ["left runs deeper", leftDeep,                                [1, 3, 4, 5]],
+        ["zeros/negatives",  zerosNegs,                               [0, -2, 0]],
+    ]],
+    ["levelOrderBottom", levelOrderBottom, [
+        ["empty tree",       null,                                    []],
+        ["single node",      leaf(1),                                 [[1]]],
+        ["root + 2 leaves",  node(1, leaf(2), leaf(3)),               [[2, 3], [1]]],
+        ["full 3 levels",    full,                                    [[4, 5, 6, 7], [2, 3], [1]]],
+        ["4 levels, sparse", deep,                                    [[7, 8, 9], [4, 5, 6], [2, 3], [1]]],
+        ["left runs deeper", leftDeep,                                [[5], [4], [2, 3], [1]]],
+        ["zeros/negatives",  zerosNegs,                               [[0], [-1, -2], [0]]],
     ]],
 ];
 

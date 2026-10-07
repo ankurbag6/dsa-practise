@@ -38,7 +38,7 @@ function bfs(node) {
  * @return {number[][]}
  */
 var NAryLevelorder = function(root) {
-    if(!root) return [[]];
+    if(!root) return [];
 
     let result = [];
     const q = [root];
@@ -58,7 +58,7 @@ var NAryLevelorder = function(root) {
     return result;
 };
 
-function zigzag(node) {
+function zigzag(root) {
     // I will implement BFS
     // q , res, 
     // add node to the q
@@ -114,11 +114,11 @@ function zigzag(node) {
  * 
  * output --> [1, 3 , 5]
  */
-function binaryTreeRight() {
- // BFS Patterm
- // while checking the children of a node from the Q, I will just push the right child 
+function binaryTreeRight(root) {
+    // BFS Patterm
+    // while checking the children of a node from the Q, I will just push the right child 
 
- // create a q, res
+    // create a q, res
     // add root to the q
     // while q not empty
         // create temp array 
@@ -129,6 +129,27 @@ function binaryTreeRight() {
             // push to the q
         // push the last element of the temp array to the res
     // return res
+    if(!root) return [];
+
+    const res = [];
+    const q = [root];
+
+    while(q.length !== 0) {
+        let count = q.length;
+        let temp = [];
+        for(let i=0; i<count; i++) {
+            let currnode = q.shift();
+            temp.push(currnode.val);
+            if(currnode.left) { 
+                q.push(currnode.left);
+            }
+            if(currnode.right) { 
+                q.push(currnode.right);
+            }
+        }
+        res.push(temp[temp.length-1]);
+    }
+    return res;
 
 }
 

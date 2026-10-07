@@ -75,6 +75,33 @@ function zigzag(node) {
         // else push reveerse temparray to res 
         //level++
     //return res
+
+    if(!root) return [];
+
+    const result = [];
+    const q = [root];
+    let  level = 0;
+
+    while(q.length != 0) {
+        let qCount = q.length;
+        let temp = [];
+        for(let i=0; i<qCount; i++){
+            let currnode = q.shift();
+            temp.push(currnode.val); 
+            if(currnode.left) {
+                q.push(currnode.left);
+            }
+            if(currnode.right) {
+                q.push(currnode.right);
+            }
+            
+        }
+        if (level %2 === 0) result.push(temp);
+        else  result.push(temp.reverse());
+        level++;
+    }
+
+    return result;
 }
 
 // print only the right side

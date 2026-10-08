@@ -16,7 +16,7 @@ with some in Java.
 | Merge Intervals | [`mergeIntervals/`](mergeIntervals) | Insert into a sorted interval list, interval list intersections, can-attend-all-meetings, minimum removals to de-overlap |
 | Heaps | [`minheapmaxheap/`](minheapmaxheap) | Min-heap from scratch, top-k patterns, the same problems via `heap-js` |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, level-order sums, right side view, root-to-leaf target sum, sum of all nodes, max value, max depth, same-tree, node definitions |
-| Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid), rotting oranges (multi-source BFS), minimum knight moves |
+| Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid), rotting oranges and 01 matrix (multi-source BFS), minimum knight moves, topological sort, course schedule |
 | Dynamic Programming | [`dynamic-programming/`](dynamic-programming) | Fibonacci via top-down memoization and bottom-up tabulation, each with a written deep-dive; climbing stairs, unique grid paths |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
 | OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, elevator system, topological sort |
@@ -100,6 +100,12 @@ with some in Java.
   seeded with every rotten orange at once; dequeues with a head index instead of `shift()`
 - [`knightmovement.js`](graphs/knightmovement.js) — minimum knight moves from (0, 0) to (x, y) on an infinite board,
   via BFS over the 8 L-shaped moves with a `"x,y"` string visited set
+- [`matrix.js`](graphs/matrix.js) — 01 matrix: distance from every cell to its nearest 0, via multi-source BFS seeded with
+  every 0 and expanded one level (one unit of distance) at a time
+- [`topologicalsort.js`](graphs/topologicalsort.js) — topological sort with Kahn's algorithm, returning `null` on a cycle;
+  tests check the ordering rules rather than one fixed answer, since a DAG usually has several valid orders
+- [`courseSchedule-1.js`](graphs/courseSchedule-1.js) — Course Schedule I: whether all courses can be finished, i.e. the
+  prerequisite graph has no cycle, by checking that Kahn's algorithm processes every course
 
 ### Dynamic Programming (`dynamic-programming/`)
 

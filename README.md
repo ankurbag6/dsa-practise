@@ -16,7 +16,7 @@ with some in Java.
 | Merge Intervals | [`mergeIntervals/`](mergeIntervals) | Insert into a sorted interval list, interval list intersections, can-attend-all-meetings, minimum removals to de-overlap |
 | Heaps | [`minheapmaxheap/`](minheapmaxheap) | Min-heap from scratch, top-k patterns, the same problems via `heap-js` |
 | Trees | [`trees/`](trees) | BFS, DFS, iterative traversal, level-order sums, right side view, root-to-leaf target sum, sum of all nodes, max value, max depth, same-tree, node definitions |
-| Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid) |
+| Graphs | [`graphs/`](graphs) | BFS, DFS, connected components, number of islands (grid), rotting oranges (multi-source BFS), minimum knight moves |
 | Dynamic Programming | [`dynamic-programming/`](dynamic-programming) | Fibonacci via top-down memoization and bottom-up tabulation, each with a written deep-dive; climbing stairs, unique grid paths |
 | Sorting | [`sorting/`](sorting) | Selection sort (Java) |
 | OOD | [`ood/`](ood) | ASCII canvas, rectangle canvas, cats and rabbits, 2048, jigsaw puzzle, parking lot, elevator system, topological sort |
@@ -96,6 +96,10 @@ with some in Java.
 - [`dfstraversal.js`](graphs/dfstraversal.js) — depth-first (recursive) traversal over an adjacency matrix
 - [`connectedcomponent.js`](graphs/connectedcomponent.js) — find connected components via BFS
 - [`countIsland.js`](graphs/countIsland.js) — number of islands in a grid, via BFS over 4-directional neighbours
+- [`rottenoranges.js`](graphs/rottenoranges.js) — minutes until every fresh orange rots (or -1), via multi-source BFS
+  seeded with every rotten orange at once; dequeues with a head index instead of `shift()`
+- [`knightmovement.js`](graphs/knightmovement.js) — minimum knight moves from (0, 0) to (x, y) on an infinite board,
+  via BFS over the 8 L-shaped moves with a `"x,y"` string visited set
 
 ### Dynamic Programming (`dynamic-programming/`)
 
